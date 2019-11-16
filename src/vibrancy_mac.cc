@@ -154,7 +154,7 @@ namespace Vibrancy {
 
         v8::Isolate* isolate = v8::Isolate::GetCurrent();
 
-        int viewId = vView->Int32Value(isolate->GetCurrentContext());
+        int viewId = vView->Int32Value(isolate->GetCurrentContext()).FromJust();
 
         if (viewId == -1 || viewId > static_cast<int>(views_.size()))
             return result;
@@ -202,11 +202,11 @@ namespace Vibrancy {
             v8::String::NewFromUtf8(isolate, "Material"));
 
         if (!vMaterial->IsNull() && vMaterial->IsInt32()) {
-            viewOptions.Material = vMaterial->Int32Value(isolate->GetCurrentContext());
+            viewOptions.Material = vMaterial->Int32Value(isolate->GetCurrentContext()).FromJust();
         }
 
         if (!vViewId->IsNull() && vViewId->IsInt32())
-            viewOptions.ViewId = vViewId->Int32Value(isolate->GetCurrentContext());
+            viewOptions.ViewId = vViewId->Int32Value(isolate->GetCurrentContext()).FromJust();
 
         if (!vSize->IsUndefined() && !vSize->IsNull()) {
             V8Array vaSize =
@@ -218,10 +218,10 @@ namespace Vibrancy {
                 vaSize->Get(v8::String::NewFromUtf8(isolate, "height"));
 
             if (!vWidth->IsNull() && vWidth->IsInt32())
-                viewOptions.Width = vWidth->Int32Value(isolate->GetCurrentContext());
+                viewOptions.Width = vWidth->Int32Value(isolate->GetCurrentContext()).FromJust();
 
             if (!vHeight->IsNull() && vHeight->IsInt32())
-                viewOptions.Height = vHeight->Int32Value(isolate->GetCurrentContext());
+                viewOptions.Height = vHeight->Int32Value(isolate->GetCurrentContext()).FromJust();
         }
 
         if (!vPosition->IsUndefined() && !vPosition->IsNull()) {
@@ -231,14 +231,14 @@ namespace Vibrancy {
             V8Value vY = vaPosition->Get(v8::String::NewFromUtf8(isolate, "y"));
 
             if (!vX->IsNull() && vX->IsInt32())
-                viewOptions.X = vX->Int32Value(isolate->GetCurrentContext());
+                viewOptions.X = vX->Int32Value(isolate->GetCurrentContext()).FromJust();
 
             if (!vY->IsNull() && vY->IsInt32())
-                viewOptions.Y = vY->Int32Value(isolate->GetCurrentContext());
+                viewOptions.Y = vY->Int32Value(isolate->GetCurrentContext()).FromJust();
         }
 
         if (!vAutoResizeMask->IsNull() && vAutoResizeMask->IsInt32()) {
-            viewOptions.ResizeMask = vAutoResizeMask->Int32Value(isolate->GetCurrentContext());
+            viewOptions.ResizeMask = vAutoResizeMask->Int32Value(isolate->GetCurrentContext()).FromJust();
         }
 
         return viewOptions;
