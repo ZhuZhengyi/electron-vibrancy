@@ -149,7 +149,7 @@ namespace Vibrancy {
         V8Value vView =
             options->Get(
                     isolate->GetCurrentContext(),
-                FromMaybe(v8::String::NewFromUtf8(isolate, "ViewId")));
+                v8::String::NewFromUtf8(isolate, "ViewId").FromMaybe());
 
         if (vView->IsNull() || !vView->IsInt32())
             return result;
