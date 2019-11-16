@@ -152,7 +152,7 @@ namespace Vibrancy {
         if (vView->IsNull() || !vView->IsInt32())
             return result;
 
-        int viewId = vView->Int32Value();
+        int viewId = vView->Int32Value(v8::Isolate::GetCurrent());
 
         if (viewId == -1 || viewId > static_cast<int>(views_.size()))
             return result;
@@ -200,11 +200,11 @@ namespace Vibrancy {
             v8::String::NewFromUtf8(isolate, "Material"));
 
         if (!vMaterial->IsNull() && vMaterial->IsInt32()) {
-            viewOptions.Material = vMaterial->Int32Value();
+            viewOptions.Material = vMaterial->Int32Value(isolate);
         }
 
         if (!vViewId->IsNull() && vViewId->IsInt32())
-            viewOptions.ViewId = vViewId->Int32Value();
+            viewOptions.ViewId = vViewId->Int32Value(isolate);
 
         if (!vSize->IsUndefined() && !vSize->IsNull()) {
             V8Array vaSize =
@@ -216,10 +216,10 @@ namespace Vibrancy {
                 vaSize->Get(v8::String::NewFromUtf8(isolate, "height"));
 
             if (!vWidth->IsNull() && vWidth->IsInt32())
-                viewOptions.Width = vWidth->Int32Value();
+                viewOptions.Width = vWidth->Int32Value(isolate);
 
             if (!vHeight->IsNull() && vHeight->IsInt32())
-                viewOptions.Height = vHeight->Int32Value();
+                viewOptions.Height = vHeight->Int32Value(isolate);
         }
 
         if (!vPosition->IsUndefined() && !vPosition->IsNull()) {
@@ -229,15 +229,16 @@ namespace Vibrancy {
             V8Value vY = vaPosition->Get(v8::String::NewFromUtf8(isolate, "y"));
 
             if (!vX->IsNull() && vX->IsInt32())
-                viewOptions.X = vX->Int32Value();
+                viewOptions.X = vX->Int32Value(isolate);
 
             if (!vY->IsNull() && vY->IsInt32())
-                viewOptions.Y = vY->Int32Value();
+                viewOptions.Y = vY->Int32Value(isolate);
         }
 
         if (!vAutoResizeMask->IsNull() && vAutoResizeMask->IsInt32()) {
-            viewOptions.ResizeMask = vAutoResizeMask->Int32Value();
+            viewOptions.ResizeMask = vAutoResizeMask->Int32Value(isolate);
         }
+
         return viewOptions;
     }
 
