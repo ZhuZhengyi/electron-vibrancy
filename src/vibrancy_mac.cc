@@ -144,15 +144,16 @@ namespace Vibrancy {
 
     bool VibrancyHelper::RemoveView(unsigned char* buffer,
         v8::Local<v8::Array> options) {
+        v8::Isolate* isolate = v8::Isolate::GetCurrent();
         bool result = false;
         V8Value vView =
             options->Get(
+                    isolate->GetCurrentContext(),
                 v8::String::NewFromUtf8(v8::Isolate::GetCurrent(), "ViewId"));
 
         if (vView->IsNull() || !vView->IsInt32())
             return result;
 
-        v8::Isolate* isolate = v8::Isolate::GetCurrent();
 
         int viewId = vView->Int32Value(isolate->GetCurrentContext()).FromJust();
 
@@ -191,6 +192,7 @@ namespace Vibrancy {
         v8::Isolate* isolate = v8::Isolate::GetCurrent();
 
         V8Value vPosition = options->Get(
+                isolate->GetCurrentContext(),
             v8::String::NewFromUtf8(isolate, "Position"));
         V8Value vSize = options->Get(isolate->GetCurrentContext(), v8::String::NewFromUtf8(isolate, "Size"));
 
@@ -198,7 +200,7 @@ namespace Vibrancy {
             v8::String::NewFromUtf8(isolate, "ResizeMask"));
         V8Value vViewId = options->Get(isolate->GetCurrentContext(),
             v8::String::NewFromUtf8(isolate, "ViewId"));
-        V8Value vMaterial = options->Get(isolate->GetCurrentContext,
+        V8Value vMaterial = options->Get(isolate->GetCurrentContext(),
             v8::String::NewFromUtf8(isolate, "Material"));
 
         if (!vMaterial->IsNull() && vMaterial->IsInt32()) {
@@ -227,8 +229,8 @@ namespace Vibrancy {
         if (!vPosition->IsUndefined() && !vPosition->IsNull()) {
             V8Array vaPosition = v8::Local<v8::Array>::Cast(vPosition);
 
-            V8Value vX = vaPosition->Get(v8::String::NewFromUtf8(isolate, "x"));
-            V8Value vY = vaPosition->Get(v8::String::NewFromUtf8(isolate, "y"));
+            V8Value vX = vaPosition->Get(isolate->GetCurrentContext(), v8::String::NewFromUtf8(isolate, "x"));
+            V8Value vY = vaPosition->Get(isolate->GetCurrentContext(), v8::String::NewFromUtf8(isolate, "y"));
 
             if (!vX->IsNull() && vX->IsInt32())
                 viewOptions.X = vX->Int32Value(isolate->GetCurrentContext()).FromJust();
